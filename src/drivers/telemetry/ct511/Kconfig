@@ -1,0 +1,5 @@
+menuconfig DRIVERS_TELEMETRY_CT511
+	bool "ct511"
+	default n
+	---help---
+		Enable support for the DX-CT511 4G modem (TCP transparent MAVLink pipe)

@@ -1,0 +1,6 @@
+module_name: ct511
+description: DX-CT511 4G modem driver, provides a mavlink serial channel (/dev/ct511) piped over a TCP transparent 4G link
+keywords: [4g, transparent, tcp, telemetry, modem, ct511]
+examples:
+    - ct511 start
+    - ct511 status

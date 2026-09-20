@@ -1,0 +1,26 @@
+#!/bin/sh
+#
+# CT511 4G telemetry modem: start the driver, then attach a mavlink
+# instance to its virtual serial device. MAVLink is piped raw over the
+# module's TCP transparent link to the relay server (see ct511.cpp).
+#
+# NOTE: NSH has no while/assignment/`sleep 0.x`, so use if/usleep only.
+# MAV_0_CONFIG must be -1 (param set MAV_0_CONFIG -1) so TELEM1 (ttyS5)
+# is exclusively owned by the CT511 modem driver (rc.serial would
+# otherwise start a mavlink instance on ttyS5 before this script runs).
+
+ct511 start
+usleep 500000
+
+if [ -e /dev/ct511 ]
+then
+	mavlink start -d /dev/ct511 -b 115200 -r 40000
+else
+	usleep 500000
+	if [ -e /dev/ct511 ]
+	then
+		mavlink start -d /dev/ct511 -b 115200 -r 40000
+	else
+		echo "ct511: /dev/ct511 did not appear, MAVLink over 4G not started"
+	fi
+fi
